@@ -128,5 +128,3 @@ dmypy.json
 # Pyre type checker
 .pyre/
 001_sf_project_01/data/dst-3.0_16_1_hh_database.csv
-001_sf_project_01/data/hh_database_preprocessed.csv
-001_sf_project_01/data/hh_database_cleared.csv
