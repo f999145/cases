@@ -6,6 +6,12 @@ import time
 import random
 from my_decorator import my_decorator
 
+# изменение рабочего каталога
+file_name = os.path.basename(__file__)
+cwd = os.path.abspath(__file__).replace(file_name, '')
+os.chdir(cwd)
+
+
 # сохраним индексную страницу
 
 url = 'http://health-diet.ru/table_calorie/?utm_source=leftMenu&utm_medium=table_calorie'
@@ -72,7 +78,8 @@ def save_pages_all_category():
 
 @my_decorator
 def main():
-    print(os.listdir())
+    print(os.path.isdir('data\cat_folder'))
+    print(os.path.abspath('scraping.py'))
         
 if __name__ == '__main__':
     main()
