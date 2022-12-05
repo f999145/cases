@@ -5,14 +5,35 @@ file_name = os.path.basename(__file__)
 cwd = os.path.abspath(__file__).replace(file_name, '')
 os.chdir(cwd)
 
-dic1 = {'a': 1, 'b': 2, 'c': 3}
-dic2 = {'d': 1, 'e': 2, 'f': 3}
-dic = {}
-dic['dic1.json'] = dic1
-dic['dic2.json'] = dic2
-# save_in_zip(dic1, 'dic.json', 'dic_zip.zip')
-# save_in_zip_all(dic,'dic_zip.zip')
+with ZipFile(os.path.join('data', 'individual_page.zip')) as zf:
+    return_dict = {}
+    for item in zf.filelist[:400]:
+        with zf.open(item.filename) as f:
+            data = f.read().decode('utf-8')
+            _, file_extension = os.path.splitext(item.filename)
+            if file_extension == '.json':
+                data = json.loads(data)
+            return_dict[item.filename] = data
+    src_01 = return_dict
 
+print(len(list(src_01.keys())))
 
-pp = load_from_zip_all('dic_zip.zip')
-print(pp)
+with ZipFile(os.path.join('data', 'individual_page.zip')) as zf:
+    return_dict = {}
+    for item in zf.filelist[300:]:
+        with zf.open(item.filename) as f:
+            data = f.read().decode('utf-8')
+            _, file_extension = os.path.splitext(item.filename)
+            if file_extension == '.json':
+                data = json.loads(data)
+            return_dict[item.filename] = data
+    src_02 = return_dict
+
+print(len(list(src_02.keys())))
+
+# save_in_zip_update(src_02, os.path.join('data', 'test.zip'))
+
+# src = load_from_zip_all(os.path.join('data', 'test.zip'))
+# print(len(list(src.keys())))
+
+print(list(src_01.items())[0][0])

@@ -30,15 +30,21 @@ def save_in_zip(file: str, filename: str, zipfilename: str = 'default.zip'):
     _, file_extension = os.path.splitext(filename)
     if file_extension == '.json':
         file = json.dumps(file, indent=4, ensure_ascii=False)
-    with ZipFile(zipfilename, 'w', compression=ZIP_DEFLATED, compresslevel=1) as zf:
+    
+    archive = BytesIO()
+    with ZipFile(archive, 'w', compression=ZIP_DEFLATED, compresslevel=1) as zf:
         with BytesIO() as f:
             f.write(file.encode())
             zf.writestr(filename, f.getbuffer())
+    
+    with open(zipfilename, 'wb') as zf:
+        zf.write(archive.getbuffer())
 
 
 
-def save_in_zip_all(file: dict, zipfilename: str = 'default.zip', mode='w'):
-    with ZipFile(zipfilename, mode, compression=ZIP_DEFLATED, compresslevel=1) as zf:
+def save_in_zip_all(file: dict, zipfilename: str = 'default.zip'):
+    archive = BytesIO()
+    with ZipFile(archive, 'w', compression=ZIP_DEFLATED, compresslevel=1) as zf:
         for key, value in file.items():
             _, file_extension = os.path.splitext(key)
             if file_extension == '.json':
@@ -46,10 +52,13 @@ def save_in_zip_all(file: dict, zipfilename: str = 'default.zip', mode='w'):
             with BytesIO() as f:
                 f.write(value.encode())
                 zf.writestr(key, f.getbuffer())
+    
+    with open(zipfilename, 'wb') as zf:
+        zf.write(archive.getbuffer())
                 
 
 
-def save_in_zip_update(file: dict, zipfilename: str = 'default.zip'):
+def save_in_zip_add(file: dict, zipfilename: str = 'default.zip'):
     if os.path.exists(zipfilename):
         dict_temp = load_from_zip_all(zipfilename)
         dict_temp.update(file)

@@ -78,7 +78,7 @@ def load_table_page():
 
 @spent_time
 def load_individual_page():
-    
+    # на будующее, необходимо создать id ключ что бы можно было мержить файлы
     src = load_from_zip(
         'member_list.json',
         os.path.join('data', 'member_list.zip')
@@ -99,15 +99,32 @@ def load_individual_page():
         print(f'page: \'{name}\' loaded')
         time.sleep(random.randrange(1,3))
 
-    save_in_zip_all(
+    save_in_zip_update(
         individual_page_dict,
         os.path.join('data', 'individual_page.zip')
         )
 
-
-
+@spent_time
+def load_info_of_members():
+    members_list = load_from_zip('member_list.json', os.path.join('data', 'member_list.zip'))
+    members_page = load_from_zip_all(os.path.join('data', 'individual_page.zip'))
+    
+    for index, item in enumerate(members_list[:10]):
+        name = item['name']
+        info = item['info']
+        key = ' '.join(list(item['name'].values()))
+        key = f'{index:03d}_{key}.html'
+        
+        src = BeautifulSoup(members_page[key], 'html.parser')
+        party = src.find(class_='bt-biografie-name').find('h3')
+        post = party.find_next_sibling()
+        party = party.text.split(',')[-1].strip()
+        post = post.text.strip()
+        print(party)
+        # print(f'{name} -> {info}')
     
 if __name__ == '__main__':
     always_load()
     # load_table_page()
     # load_individual_page()
+    load_info_of_members()
