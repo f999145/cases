@@ -1,10 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import json
-import pandas as pd
 import os, time, random
-from io import BytesIO
-from zipfile import ZipFile, ZIP_DEFLATED
 from my_library import *
 
 def always_load():
@@ -104,14 +100,20 @@ def load_individual_page():
         os.path.join('data', 'individual_page.zip')
         )
 
+    
 @spent_time
 def load_info_of_members():
-    members_list = load_from_zip('member_list.json', os.path.join('data', 'member_list.zip'))
+    members_list = load_from_zip(os.path.join('data', 'member_list.zip'))
     members_page = load_from_zip_all(os.path.join('data', 'individual_page.zip'))
     
-    for index, item in enumerate(members_list[:10]):
+    members_dict = {}
+    constituency_office_list = []
+    
+    for index, item in list(enumerate(members_list)):
         name = item['name']
         info = item['info']
+        href = item['href']
+        namestr = ' '.join(list(item['name'].values())[::-1])
         key = ' '.join(list(item['name'].values()))
         key = f'{index:03d}_{key}.html'
         
@@ -120,11 +122,65 @@ def load_info_of_members():
         post = party.find_next_sibling()
         party = party.text.split(',')[-1].strip()
         post = post.text.strip()
-        print(party)
-        # print(f'{name} -> {info}')
+        
+        
+        kontakts = src.find('div', class_='bt-profil-kontakt').find(class_='row')
+        
+        try:
+            constituency_office = kontakts.find(text='Wahlkreisbüro')
+        except Exception as ex:
+            constituency_office = ''
+        
+        if constituency_office is not None:
+            try:
+                constituency_office = str(constituency_office.find_next('p'))
+                constituency_office = constituency_office.replace('</p>', '').replace('<p>', '').strip()
+                constituency_office = constituency_office.replace('<br/> ', '<br/><br/>')
+                constituency_office = constituency_office.split('<br/><br/>')
+                for i in range(len(constituency_office)):
+                    constituency_office[i] = constituency_office[i].replace('<br/>', ' ').strip()
+            except Exception as ex:
+                print(f'index: {index} ', ex)
+        if constituency_office:
+            if len(constituency_office)>1:
+                constituency_office_list.append({index:constituency_office})
+        
+        profiles_in_internet = {}
+        
+        p_i_i = kontakts.find(class_='bt-linkliste')
+        try:
+            p_i_i = p_i_i.find_all(class_='bt-link-extern')
+        except Exception as ex:
+            p_i_i = None
+            print(index, 'p_i_i', ex)
+        
+        if p_i_i:
+            for item in p_i_i:
+                profiles_in_internet[item.get('title')] = item.get('href')
+        else:
+            profiles_in_internet = None
+
+        data = {
+            'name_dict': name,
+            'info': info,
+            'party': party,
+            'post': post,
+            'constituency office': constituency_office,
+            'profiles in internet': profiles_in_internet,
+            'href': href,
+        }
+        
+        members_dict[namestr] = data
+        
+    save_in_zip(
+        members_dict,
+        'members.json',
+        os.path.join('data', 'members_json.zip')
+    )
+    
     
 if __name__ == '__main__':
     always_load()
     # load_table_page()
     # load_individual_page()
-    load_info_of_members()
+    # load_info_of_members()

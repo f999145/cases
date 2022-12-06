@@ -1,6 +1,5 @@
 import time
 import os, json
-from io import BytesIO
 from zipfile import ZipFile, ZIP_DEFLATED
 
 def spent_time(func):
