@@ -36,4 +36,13 @@ print(len(list(src_02.keys())))
 # src = load_from_zip_all(os.path.join('data', 'test.zip'))
 # print(len(list(src.keys())))
 
-print(list(src_01.items())[0][0])
+
+save_in_zip_update(
+    src_01,
+    os.path.join('data', 'test2.zip')
+)
+save_in_zip_update(
+    src_02,
+    os.path.join('data', 'test2.zip')
+)
+# print(list(src_01.items())[0][0])
