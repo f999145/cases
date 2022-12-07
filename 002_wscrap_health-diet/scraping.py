@@ -110,7 +110,7 @@ def save_pages_all_category():
         count += 1
         time.sleep(random.randrange(2,4))
     
-    with open(os.path.join('data', ' all_categories_pages.zip'), 'wb') as file:
+    with open(os.path.join('data', 'all_categories_pages.zip'), 'wb') as file:
         file.write(archive.getbuffer())
 
 
@@ -122,7 +122,7 @@ def create_table():
     products_json_var1 = {}
     products_json_var2 = []
     
-    with ZipFile(os.path.join('data', ' all_categories_pages.zip')) as z:
+    with ZipFile(os.path.join('data', 'all_categories_pages.zip')) as z:
         for item in z.filelist:
             with z.open(item.filename) as f:
                 name = item.filename[4:-5]
