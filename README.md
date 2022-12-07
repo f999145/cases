@@ -4,4 +4,4 @@
 
 * [002_webscrapping: общая таблица калорийности и пищевой ценности продуктов](https://github.com/f999145/cases/tree/main/002_wscrap_health-diet)
 
-* [002_webscrapping: сводные данные(json) о текущих членах правительства Германии](https://github.com/f999145/cases/tree/main/003_wscrap_bundestag.de)
+* [003_webscrapping: сводные данные(json) о текущих членах правительства Германии](https://github.com/f999145/cases/tree/main/003_wscrap_bundestag.de)
