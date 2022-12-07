@@ -19,6 +19,6 @@
 работу с библиотекой BeautifulSoup 
 
 ### `Результаты:`  
-[Файл с кодом webscrapping](https://github.com/f999145/cases/blob/main/003_wscrap_bundestag.de/webscrapping.py)
+[Файл с кодом webscrapping](https://github.com/f999145/cases/blob/main/004_wscrap_festivals/webscrapping.py)
 
-[Файл с итоговым результатом](https://github.com/f999145/cases/blob/main/003_wscrap_bundestag.de/data/members_json.zip)
+[Файл с итоговым результатом](https://github.com/f999145/cases/blob/main/004_wscrap_festivals/data/festivals.zip)
