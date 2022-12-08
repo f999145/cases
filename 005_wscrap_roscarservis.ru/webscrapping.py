@@ -63,6 +63,12 @@ def colected_data():
         for busbar in (item['items']):
             commonStores = {}
             busbar_id = int(busbar['id'])
+            name = busbar.get('name', None)
+            busbar_url = busbar.get('url', None)
+            
+            character = str(name).split(' ', maxsplit=2)[:2]
+            character = [x for y in list(map(lambda x: x.split('/'), character)) for x in y]
+            
             for store in busbar['commonStores']:
                 commonStores[store['STORE_NAME']] = int(store['AMOUNT'])
             if not commonStores:
@@ -75,10 +81,11 @@ def colected_data():
             else:
                 total_amount = sum(commonStores.values())
 
-            busbar_url = busbar.get('url', None)
+            
 
             busbar_dict[int(busbar['id'])] = {
-                    'name': busbar.get('name', None),
+                    'name': name,
+                    'char': character,
                     'price': busbar.get('price', None),
                     'total amount': total_amount,
                     'commonStores': commonStores,

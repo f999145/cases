@@ -1,7 +1,3 @@
-
-json get запрос
-(https://www.youtube.com/watch?v=8LJllhrVJVw)
-
 асихронный запрос
 (https://youtu.be/ITELa7JaDm4)
 (https://youtu.be/87A1Rq0CGtE)
