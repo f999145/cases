@@ -7,3 +7,5 @@
 * [003_webscrapping: сводные данные(json) о текущих членах правительства Германии](https://github.com/f999145/cases/tree/main/003_wscrap_bundestag.de)
 
 * [004_webscrapping: сводные данные(json) о фестивалях с сайте https://www.skiddle.com/](https://github.com/f999145/cases/tree/main/004_wscrap_festivals)
+
+* [005_webscrapping: Сводные данные о шинах в наличии с сайта https://www.roscarservis.ru](https://github.com/f999145/cases/tree/main/005_wscrap_roscarservis.ru)

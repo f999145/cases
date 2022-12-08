@@ -15,6 +15,6 @@
 расширенный поиск по словарю 
 
 ### `Результаты:`  
-[Файл с кодом webscrapping](https://github.com/f999145/cases/blob/main/004_wscrap_festivals/webscrapping.py)
+[Файл с кодом webscrapping](https://github.com/f999145/cases/blob/main/005_wscrap_roscarservis.ru/webscrapping.py)
 
-[Файл с итоговым результатом](https://github.com/f999145/cases/blob/main/004_wscrap_festivals/data/festivals.zip)
+[Файл с итоговым результатом](https://github.com/f999145/cases/blob/main/005_wscrap_roscarservis.ru/data/busbars.zip)
