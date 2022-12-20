@@ -42,7 +42,7 @@ def get_pages(
     return False
 
 async def _get_pages_async(
-    session,
+    session: aiohttp.ClientSession,
     pagin: int,
     url: str = url, 
     pagination: str = pagination, 

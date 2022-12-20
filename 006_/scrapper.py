@@ -35,62 +35,71 @@ def get_info_book():
             body = src.find('tbody')
             books = body.find_all('tr')
             for book in books:
-                try:
-                    title = book.find('a', class_='book-qtip').get('title').strip()
-                except:
-                    title = 'НЕТ НАЗВАНИЯ'
-                
-                try:
-                    link = host+book.find('a', class_='book-qtip').get('href')
-                except:
-                    link = 'НЕТ ССЫЛКИ'
-                
-                try:
-                    autor = book.find('td', class_="col-sm-2").find('a').text.strip()
-                except:
-                    autor = 'НЕТ АВТОРА'
-                
-                try:
-                    autor_link = host + book.find('td', class_="col-sm-2").find('a').get('href')
-                except:
-                    autor = 'НЕТ ССЫЛКИ НА АВТОРА'
-                
-                try:
-                    pubhouse = book.find('td', class_='products-table__pubhouse').find('a').text.strip()
-                except:
-                    pubhouse = 'НЕТ ИЗДАТЕЛЯ'
-                
-                try:
-                    price = book.find('td', class_='products-table__price').find('span', class_='price-val').find('span')
-                    price = int(str(price.text).strip().replace(' ',''))
-                except:
-                    price = 0
-                
-                try:
-                    price_old = book.find('td', class_='products-table__price').find('span', class_='price-old').find('span')
-                    price_old = int(str(price_old.text).strip().replace(' ',''))
-                except:
-                    price_old = 0
-                
-                temp = pd.DataFrame({
-                    'Название':[title],
-                    'Ссылка':[link],
-                    'Автор':[autor],
-                    'Ссылка на автора':[autor_link],
-                    'Издательство':[pubhouse],
-                    'Текущая цена':[price],
-                    'Старая цена':[price_old]
-                })
-                
-                
+                temp = _get_data_of_book(book)
                 books_df = pd.concat([books_df, temp], ignore_index=True, sort=False)
-        compression_opts = dict(method='zip', archive_name='books.csv')
-        MakeDir(result)
-        books_df.to_csv(
-            os_path_join(result, 'books.zip'), 
-            index=False,
-            compression=compression_opts
-            )
-        
-        monitor_check('info_book')
-        
+        save_bool = _save_df(books_df, result)        
+        if save_bool:
+            monitor_check('info_book')
+
+
+def _get_data_of_book(book: BS) -> pd.DataFrame:
+    try:
+        title = book.find('a', class_='book-qtip').get('title').strip()
+    except:
+        title = 'НЕТ НАЗВАНИЯ'
+    
+    try:
+        link = host+book.find('a', class_='book-qtip').get('href')
+    except:
+        link = 'НЕТ ССЫЛКИ'
+    
+    try:
+        autor = book.find('td', class_="col-sm-2").find('a').text.strip()
+    except:
+        autor = 'НЕТ АВТОРА'
+    
+    try:
+        autor_link = host + book.find('td', class_="col-sm-2").find('a').get('href')
+    except:
+        autor_link = 'НЕТ ССЫЛКИ НА АВТОРА'
+    
+    try:
+        pubhouse = book.find('td', class_='products-table__pubhouse').find('a').text.strip()
+    except:
+        pubhouse = 'НЕТ ИЗДАТЕЛЯ'
+    
+    try:
+        price = book.find('td', class_='products-table__price').find('span', class_='price-val').find('span')
+        price = int(str(price.text).strip().replace(' ',''))
+    except:
+        price = 0
+    
+    try:
+        price_old = book.find('td', class_='products-table__price').find('span', class_='price-old').find('span')
+        price_old = int(str(price_old.text).strip().replace(' ',''))
+    except:
+        price_old = 0
+    
+    temp = pd.DataFrame({
+        'Название':[title],
+        'Ссылка':[link],
+        'Автор':[autor],
+        'Ссылка на автора':[autor_link],
+        'Издательство':[pubhouse],
+        'Текущая цена':[price],
+        'Старая цена':[price_old]
+    })
+    
+    return temp
+
+
+
+def _save_df(df: pd.DataFrame, result: str) -> bool:
+    compression_opts = dict(method='zip', archive_name='books.csv')
+    MakeDir(result)
+    df.to_csv(
+        os_path_join(result, 'books.zip'), 
+        index=False,
+        compression=compression_opts
+        )
+    return True
