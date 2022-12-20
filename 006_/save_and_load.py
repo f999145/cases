@@ -25,22 +25,23 @@ def _str_to_dict(file: filetuple) -> filetuple:
     return file
 
 
-def save_in_zip(file: filetuple, zipfilename: str) -> None:
+def save_in_zip(file: filetuple, zipfilename: str) -> bool:
     MakeDir(GetPath(zipfilename))
     file = _dict_to_str(file)
     with ZipFile(zipfilename, 'w', compression=ZIP_DEFLATED, compresslevel=1) as zf:
         zf.writestr(file.filename, file.content.encode())
+    return True
 
-
-def save_in_zip_all(files: tuple[filetuple, ...], zipfilename: str) -> None:
+def save_in_zip_all(files: tuple[filetuple, ...], zipfilename: str) -> bool:
     MakeDir(GetPath(zipfilename))
     with ZipFile(zipfilename, 'w', compression=ZIP_DEFLATED, compresslevel=1) as zf:
         for file in files:
             file = _dict_to_str(file)
             zf.writestr(file.filename, file.content.encode())
+    return True
                 
 
-def save_in_zip_update(file: tuple[filetuple, ...], zipfilename: str) -> None:
+def save_in_zip_update(file: tuple[filetuple, ...], zipfilename: str) -> bool:
     if os.path.exists(zipfilename):
         temp = load_from_zip_all(zipfilename)
         dict_temp = dict(temp)
@@ -48,6 +49,7 @@ def save_in_zip_update(file: tuple[filetuple, ...], zipfilename: str) -> None:
         file = tuple(filetuple(x, y) for x, y in dict_temp.items())
     MakeDir(GetPath(zipfilename))
     save_in_zip_all(file, zipfilename)
+    return True
 
 
 def load_from_zip(zipfilename: str) -> filetuple:

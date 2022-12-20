@@ -1,7 +1,16 @@
 {
-    "1": "b6",
-    "2": "a2",
-    "3": "b3",
-    "4": "b4",
-    "5": "b5"
+    "curstage": "info_book",
+    "get_page_pagination": {
+        "completed": true
+    },
+    "get_pagination": {
+        "completed": true,
+        "pagin": 16
+    },
+    "get_pages": {
+        "completed": true
+    },
+    "info_book": {
+        "completed": true
+    }
 }

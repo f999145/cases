@@ -1,29 +1,20 @@
 # import os
 from operations_with_paths import ChangeDir
-from config import url, pagination, current, tmp, result
+from config import current
+from monitoring_progress import monitor_add
+from get_page import get_page_pagination, get_pages, run_page_async
+from scrapper import get_pagination, get_info_book
+from decor import spent_time
 
-
-
-"""
-Структура:
-    Конфиг.ини содержащий информацию:
-        юрл
-        хост
-    json- о выполненых этапах и сохранении полезных данных
-        функция обновления данных
-        Сохранения
-        Загрузки
-        Проверки этапов выполнения
-    обновление до рабочей директории
-    Сохранить все страницы с книгами
-        Можно получить количество страниц
-    Собрать все карты книг в список
-    
-"""
-
+@spent_time
 def main():
     ChangeDir(current)
+    monitor_add()
+    get_page_pagination()
+    get_pagination()
+    # get_pages()
+    run_page_async()
+    get_info_book()
     
-
 if __name__ == '__main__':
     main()
